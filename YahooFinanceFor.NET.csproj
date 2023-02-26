@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>YahooFinanceFor.NET</Title>
+	<Copyright>Uitan Maciel</Copyright>
+	<RepositoryUrl>https://github.com/uitanmaciel/YahooFinanceFor.NET</RepositoryUrl>
+	<Description>This is a library to help .NET developers to collect financial market information from Yahoo Finance (unofficial api).</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageTags>YahooFinance;Finance;</PackageTags>
+	<AssemblyVersion>2.0.0.0</AssemblyVersion>
+	<FileVersion>2.0.0.0</FileVersion>
+	<Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Tools\Scrapings\**" />
+    <EmbeddedResource Remove="Tools\Scrapings\**" />
+    <None Remove="Tools\Scrapings\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TimHanewich.Toolkit" Version="6.1.0" />
+  </ItemGroup>
+
+</Project>
