@@ -4,8 +4,8 @@ namespace YahooFinanceFor.NET.Core.Application.Services.Models.Profile;
 
 public class AddressInfoApplicationModel
 {
-    public string Address { get; set; }
-    public string Complement { get; set; }
+    public string Address { get; set; }    
+    public string City { get; set; }
     public string State { get; set; }
     public string ZipCode { get; set; }
     public string Country { get; set; }
@@ -13,10 +13,10 @@ public class AddressInfoApplicationModel
 
     public AddressInfoApplicationModel() { }
 
-    public AddressInfoApplicationModel(string address, string complement, string state, string zipCode, string country, string url)
+    public AddressInfoApplicationModel(string address, string city, string state, string zipCode, string country, string url)
     {
-        Address = address;
-        Complement = complement;
+        Address = address;        
+        City = city;
         State = state;
         ZipCode = zipCode;
         Country = country;
@@ -53,9 +53,8 @@ public class AddressInfoApplicationModel
             return new AddressInfoApplicationModel();
 
         AddressInfoApplicationModel _address = new AddressInfoApplicationModel();
-        _address.Address = addressInfo.Address;
-        _address.Complement = addressInfo.Complement;
-        _address.State = addressInfo.State;
+        _address.Address = addressInfo.Address;       
+        _address.City = addressInfo.City;
         _address.ZipCode = addressInfo.ZipCode;
         _address.Country = addressInfo.Country;
         _address.Url = addressInfo.Url;
@@ -72,8 +71,8 @@ public class AddressInfoApplicationModel
             foreach (var address in addressInfos)
             {
                 AddressInfoApplicationModel _address = new AddressInfoApplicationModel();
-                _address.Address = address.Address;
-                _address.Complement = address.Complement;
+                _address.Address = address.Address;                
+                _address.City = address.City;
                 _address.State = address.State;
                 _address.ZipCode = address.ZipCode;
                 _address.Country = address.Country;
@@ -90,7 +89,7 @@ public class AddressInfoApplicationModel
         if(addressInfoApplication is null)
             return new AddressInfo();
 
-        AddressInfo _addressInfo = new AddressInfo(addressInfoApplication.Address, addressInfoApplication.Complement, addressInfoApplication.State,
+        AddressInfo _addressInfo = new AddressInfo(addressInfoApplication.Address, addressInfoApplication.City, addressInfoApplication.State,
                                                    addressInfoApplication.ZipCode, addressInfoApplication.Country, addressInfoApplication.Url);
 
         return _addressInfo;
@@ -104,7 +103,7 @@ public class AddressInfoApplicationModel
         {
             foreach(var address in addressInfoApplicationModels) 
             {
-                AddressInfo _addressInfo = new AddressInfo(address.Address, address.Complement, address.State, address.ZipCode, address.Country, address.Url);
+                AddressInfo _addressInfo = new AddressInfo(address.Address, address.City, address.State, address.ZipCode, address.Country, address.Url);
                 _addressList.Add(_addressInfo);
             }
         }

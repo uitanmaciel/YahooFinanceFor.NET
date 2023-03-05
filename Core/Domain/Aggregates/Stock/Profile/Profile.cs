@@ -8,14 +8,14 @@ public class Profile
     public AddressInfo AddressInfo { get; private set; }
     public string Sector { get; private set; }
     public string Industry { get; private set; }
-    public decimal NumberEmployee { get; private set; }
+    public string NumberEmployee { get; private set; }
     public List<KeyExecutive> KeyExecutives { get; private set; }
     public string Description { get; private set; }
     public string Governance { get; private set; }
 
     public Profile() { }
 
-    public Profile(string companyName, AddressInfo addresses, string sector, string industry, decimal numberEmployee, List<KeyExecutive> keyExecutives, 
+    public Profile(string companyName, AddressInfo addresses, string sector, string industry, string numberEmployee, List<KeyExecutive> keyExecutives, 
                    string description, string governance)
     {
         CompanyName = companyName;

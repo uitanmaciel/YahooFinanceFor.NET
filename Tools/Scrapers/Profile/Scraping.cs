@@ -1,4 +1,5 @@
-﻿using YahooFinanceFor.NET.Core.Application.Handlers.Profile.DTOs;
+﻿using System.Text.RegularExpressions;
+using YahooFinanceFor.NET.Core.Application.Handlers.Profile.DTOs;
 using YahooFinanceFor.NET.Core.Application.Interfaces.Tools;
 
 namespace YahooFinanceFor.NET.Tools.Scrapings.Profile;
@@ -31,29 +32,63 @@ public class Scraping : IProfileScraping
         int localizeTagMain = source.IndexOf("<div id=\"Main\"");
         int localizeP1Start = source.IndexOf("<p", localizeTagMain);
         int localizeP1End = source.IndexOf("</p>", localizeP1Start, StringComparison.CurrentCultureIgnoreCase);
-        string[] broken = source.Substring(localizeP1Start, localizeP1End - localizeP1Start).Split(">");
+        string[] broken = source.Substring(localizeP1Start, localizeP1End - localizeP1Start).Split("<br/>");
 
-        for (int i = 1; i < broken.Length; i++)
+        switch (broken.Length)
         {
-            if (i >= 1 && i <= 4 || i == 9)
-            {
-                if (i == 3)
+            case 5:
+                for (int i = 0; i < broken.Length; i++)
                 {
-                    string[] items = broken[i].Split(",");
-                    string[] cep = items[1].Split(" ");
-                    for (int j = 1; j <= cep.Length - 1; j++)
+                    Regex regex = new Regex("<.*?>", RegexOptions.Compiled);
+                    string text = regex.Replace(broken[i], string.Empty);
+
+                    if (i == 1)
                     {
-                        address.Add(cep[j].Replace("<br/", ""));
+                        var _split = text.Split(",");
+                        address.Add(_split[0].Replace(",", string.Empty).Trim());
+
+
+                        var _stateAndCity = _split[1].Split(" ");
+                        for (int j = 0; j < _stateAndCity.Length; j++)
+                        {
+                            if (_stateAndCity[j] != "")
+                                address.Add(_stateAndCity[j].Trim());
+                        }
                     }
+                    else
+                        address.Add(text);
                 }
-                address.Add(broken[i].Replace("<br/", "").Replace("</a", ""));
-            }
-        }
-        address.RemoveAt(4);
+                address.RemoveAt(5);
+                break;
+            default:
+                for (int i = 0; i < broken.Length; i++)
+                {
+                    Regex regex = new Regex("<.*?>", RegexOptions.Compiled);
+                    string text = regex.Replace(broken[i], string.Empty);
+
+                    if (i == 2)
+                    {
+                        var _split = text.Split(",");
+                        address.Add(_split[0].Replace(",", string.Empty).Trim());
+
+                        var _stateAndCity = _split[1].Split(" ");
+                        for(int j = 0; j < _stateAndCity.Length; j++)
+                        {
+                            if (_stateAndCity[j] != "")
+                                address.Add(_stateAndCity[j].Trim());
+                        }
+                    }
+                    else
+                        address.Add(text);
+                }
+                address.RemoveAt(1);
+                address.RemoveAt(5);
+                break;
+        }        
         return address;
     }
 
-    public (string sector, string industry, decimal numberEmployee) IndustryAndSector(string source)
+    public (string sector, string industry, string numberEmployee) IndustryAndSector(string source)
     {
         string _sector = "", _industry = "", _numberEmployee = "";
 
@@ -71,17 +106,17 @@ public class Scraping : IProfileScraping
                 switch (i)
                 {
                     case 4:
-                        _sector = broken[i].Replace("</span", "");
+                        _sector = broken[i].Replace("</span", "").Trim();
                         break;
                     case 9:
-                        _industry = broken[i].Replace("</span", "");
+                        _industry = broken[i].Replace("</span", "").Replace("&amp", string.Empty).Trim();
                         break;
                     case 15:
-                        _numberEmployee = broken[i].Replace("</span", "");
+                        _numberEmployee = broken[i].Replace("</span", "").Trim();
                         break;
                 }
             }
-            return (sector: _sector, industry: _industry, numberEmployee: Convert.ToDecimal(_numberEmployee));
+            return (sector: _sector, industry: _industry, numberEmployee: _numberEmployee);
         }
         catch (Exception ex)
         {
@@ -116,6 +151,7 @@ public class Scraping : IProfileScraping
                                 .Replace("<tbody", "")
                                 .Replace("</tbody", "")
                                 .Split(">");
+
 
             for (int i = 0; i < broken.Length; i++)
             {
@@ -171,9 +207,11 @@ public class Scraping : IProfileScraping
             int localizeSection = source.IndexOf("<section class=\"quote-sub-section", localizeTagMain);
             int localizePStart = source.IndexOf("<p", localizeSection, StringComparison.CurrentCultureIgnoreCase);
             int localizePEnd = source.IndexOf("</p>", localizePStart, StringComparison.CurrentCultureIgnoreCase);
-            string[] broken = source.Substring(localizePStart, localizePEnd - localizePStart).Split(">");
+            string _text = source.Substring(localizePStart, localizePEnd - localizePStart);
 
-            return _description = broken[1].Replace("</p>", "");
+            Regex regex = new Regex("<.*?>", RegexOptions.Compiled);
+            
+            return _description = regex.Replace(_text, string.Empty);
         }
         catch (Exception ex)
         {
@@ -191,42 +229,16 @@ public class Scraping : IProfileScraping
             int localizeSection = source.IndexOf("<section class=\"Mt(30px) corporate-governance-container", localizeTagMain);
             int localizePStart = source.IndexOf("<p", localizeSection, StringComparison.CurrentCultureIgnoreCase);
             int localizePEnd = source.IndexOf("</p>", localizePStart, StringComparison.CurrentCultureIgnoreCase);
-            string[] broken = source.Substring(localizePStart, localizePEnd - localizePStart)
-                                    .Replace("<p class=\"Fz(s)\"", "")
-                                    .Replace("<span", "")
-                                    .Replace("</span", "")
-                                    .Split(">");
-
-            for (int i = 0; i < broken.Length; i++)
-            {
-                if (broken[i] != "")
-                {
-                    _governance = string.Concat(_governance, broken[i]);
-                }
-            }
+            string _textPart1 = source.Substring(localizePStart, localizePEnd - localizePStart);
 
             int localizeDivStart = source.IndexOf("<div class=\"Mt(20px)\"", localizePEnd);
             int localizeDivEnd = source.IndexOf("</div>", localizeDivStart, StringComparison.CurrentCultureIgnoreCase);
-            string[] broken1 = source.Substring(localizeDivStart, localizeDivEnd - localizeDivStart)
-                                     .Replace("<div class=\"Mt(20px)\"", "")
-                                     .Replace("<span", "")
-                                     .Replace("</span", "")
-                                     .Replace("<a href=", "")
-                                     .Replace("target=\"_blank\" rel=\"noopener noreferrer\" title=", "")
-                                     .Replace(" <span", "")
-                                     .Replace("\"Institutional Shareholder Services (ISS)\"", "")
-                                     .Replace("</a", "")
-                                     .Replace("\"", "")
-                                     .Split(">");
+            string _textPart2 = source.Substring(localizeDivStart, localizeDivEnd - localizeDivStart);
 
-            for (int j = 0; j < broken1.Length; j++)
-            {
-                if (broken[j] != "")
-                {
-                    _governance = string.Concat(_governance, broken1[j]);
-                }
-            }
-            return _governance;
+            Regex regex = new Regex("<.*?>", RegexOptions.Compiled);
+            string text = regex.Replace(_textPart1, string.Empty);
+
+            return _governance = string.Concat(regex.Replace(_textPart1, string.Empty), regex.Replace(_textPart2, string.Empty));
         }
         catch (Exception ex)
         {

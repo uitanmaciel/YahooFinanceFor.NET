@@ -4,8 +4,8 @@ namespace YahooFinanceFor.NET.Core.Application.Handlers.Profile.DTOs;
 
 public class AddressInfoProfileDTO
 {
-    public string Address { get; set; }
-    public string Complement { get; set; }
+    public string Address { get; set; }    
+    public string City { get; set; }
     public string State { get; set; }
     public string ZipCode { get; set; }
     public string Country { get; set; }
@@ -13,10 +13,10 @@ public class AddressInfoProfileDTO
 
     public AddressInfoProfileDTO() { }
 
-    public AddressInfoProfileDTO(string address, string complement, string state, string zipCode, string country, string url)
+    public AddressInfoProfileDTO(string address, string city, string state, string zipCode, string country, string url)
     {
-        Address = address;
-        Complement = complement;
+        Address = address;        
+        City = city;
         State = state;
         ZipCode = zipCode;
         Country = country;
@@ -44,8 +44,8 @@ public class AddressInfoProfileDTO
         var address = _Scraping.AddressInfo(source);
 
         AddressInfoProfileDTO _addressInfoProfile = new AddressInfoProfileDTO();
-        _addressInfoProfile.Address = address[0];
-        _addressInfoProfile.Complement = address[1];
+        _addressInfoProfile.Address = address[0];        
+        _addressInfoProfile.City = address[1];
         _addressInfoProfile.State = address[2];
         _addressInfoProfile.ZipCode = address[3];
         _addressInfoProfile.Country = address[4];
@@ -59,8 +59,8 @@ public class AddressInfoProfileDTO
         if (addressInfoProfileDTO is null)
             return new Domain.Aggregates.Stock.Profile.AddressInfo();
 
-        Domain.Aggregates.Stock.Profile.AddressInfo _addressInfo = new Domain.Aggregates.Stock.Profile.AddressInfo(addressInfoProfileDTO.Address,
-                                                                                                                   addressInfoProfileDTO.Complement,
+        Domain.Aggregates.Stock.Profile.AddressInfo _addressInfo = new Domain.Aggregates.Stock.Profile.AddressInfo(addressInfoProfileDTO.Address,                                                                                                                   
+                                                                                                                   addressInfoProfileDTO.City,
                                                                                                                    addressInfoProfileDTO.State,
                                                                                                                    addressInfoProfileDTO.ZipCode,
                                                                                                                    addressInfoProfileDTO.Country,

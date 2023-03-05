@@ -2,8 +2,8 @@
 
 public class AddressInfo
 {
-    public string Address { get; set; }
-    public string Complement { get; set; }
+    public string Address { get; set; }    
+    public string City { get; set; }
     public string State { get; set; }
     public string ZipCode { get; set; }
     public string Country { get; set; }
@@ -11,10 +11,10 @@ public class AddressInfo
 
     public AddressInfo() { }
 
-    public AddressInfo(string address, string complement, string state, string zipCode, string country, string url)
+    public AddressInfo(string address, string city, string state, string zipCode, string country, string url)
     {
-        Address = address;
-        Complement = complement;
+        Address = address;       
+        City = city;
         State = state;
         ZipCode = zipCode;
         Country = country;

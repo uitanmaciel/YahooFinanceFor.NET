@@ -6,14 +6,14 @@ public class ProfileDTO
     public AddressInfoProfileDTO AddressInfo { get; set; }
     public string Sector { get; set; }
     public string Industry { get; set; }
-    public decimal NumberEmployee { get; set; }
+    public string NumberEmployee { get; set; }
     public List<KeyExecutiveProfileDTO> KeyExecutives { get; set; }
     public string Description { get; set; }
     public string Governance { get; set; }
 
     public ProfileDTO() { }
 
-    public ProfileDTO(string companyName, AddressInfoProfileDTO addressInfoProfileScrapingDTOs, string sector, decimal numberEmployee, string industry, List<KeyExecutiveProfileDTO> keyExecutiveProfileScrapingDTOs,
+    public ProfileDTO(string companyName, AddressInfoProfileDTO addressInfoProfileScrapingDTOs, string sector, string numberEmployee, string industry, List<KeyExecutiveProfileDTO> keyExecutiveProfileScrapingDTOs,
                       string description, string governance)
     {
         CompanyName = companyName;

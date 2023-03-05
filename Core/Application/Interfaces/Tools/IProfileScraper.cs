@@ -6,7 +6,7 @@ public interface IProfileScraping
 {
     string CompanyName(string source);
     List<string> AddressInfo(string source);
-    (string sector, string industry, decimal numberEmployee) IndustryAndSector(string source);
+    (string sector, string industry, string numberEmployee) IndustryAndSector(string source);
     List<KeyExecutiveProfileDTO> KeyExecutives(string source);
     string Description(string source);
     string Governance(string source);

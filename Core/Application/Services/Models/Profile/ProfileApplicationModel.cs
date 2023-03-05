@@ -6,7 +6,7 @@ public class ProfileApplicationModel
     public AddressInfoApplicationModel AddressInfo { get; set; }
     public string Sector { get; set; }
     public string Industry { get; set; }
-    public decimal NumberEmployee { get; set; }
+    public string NumberEmployee { get; set; }
     public List<KeyExecutiveApplicationModel> KeyExecutives { get; set; }
     public string Description { get; set; }
     public string Governance { get; set; }
@@ -17,7 +17,7 @@ public class ProfileApplicationModel
                                    AddressInfoApplicationModel addresses, 
                                    string sector, 
                                    string industry, 
-                                   decimal numberEmployee,
+                                   string numberEmployee,
                                    List<KeyExecutiveApplicationModel> keyExecutives,
                                    string description,
                                    string governance)
