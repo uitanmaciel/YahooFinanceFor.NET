@@ -50,6 +50,9 @@ public class ProfileDTO
         var _description = _scraping.Description(source);
         var _governance = _scraping.Governance(source);
 
+        if(string.IsNullOrEmpty(_companyName))
+            return new ProfileDTO();
+
         ProfileDTO _profileScrapingDTO = new ProfileDTO();
         _profileScrapingDTO.CompanyName = _companyName;
         _profileScrapingDTO.AddressInfo = AddressInfoProfileDTO.Scraping(source);

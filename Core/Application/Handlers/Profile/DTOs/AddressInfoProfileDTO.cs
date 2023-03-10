@@ -43,13 +43,16 @@ public class AddressInfoProfileDTO
         Scraping _Scraping = new Scraping();
         var address = _Scraping.AddressInfo(source);
 
+        if (string.IsNullOrEmpty(address.locate))
+            return new AddressInfoProfileDTO();
+
         AddressInfoProfileDTO _addressInfoProfile = new AddressInfoProfileDTO();
-        _addressInfoProfile.Address = address[0];        
-        _addressInfoProfile.City = address[1];
-        _addressInfoProfile.State = address[2];
-        _addressInfoProfile.ZipCode = address[3];
-        _addressInfoProfile.Country = address[4];
-        _addressInfoProfile.Url = address[5];
+        _addressInfoProfile.Address = address.locate;        
+        _addressInfoProfile.City = address.city;
+        _addressInfoProfile.State = address.state;
+        _addressInfoProfile.ZipCode = address.zipCode;
+        _addressInfoProfile.Country = address.country;
+        _addressInfoProfile.Url = address.url;
 
         return _addressInfoProfile;
     }

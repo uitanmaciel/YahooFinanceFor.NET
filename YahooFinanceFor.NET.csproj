@@ -13,8 +13,8 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>YahooFinance;Finance;</PackageTags>
 	<AssemblyVersion>2.0.0.0</AssemblyVersion>
-	<FileVersion>2.0.0.1</FileVersion>
-	<Version>2.0.1</Version>
+	<FileVersion>2.0.0.2</FileVersion>
+	<Version>2.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
