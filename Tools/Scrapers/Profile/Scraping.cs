@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Net;
+using System.Text.RegularExpressions;
 using YahooFinanceFor.NET.Core.Application.Handlers.Profile.DTOs;
 using YahooFinanceFor.NET.Core.Application.Interfaces.Tools;
 
@@ -107,8 +108,9 @@ public class Scraping : IProfileScraping
                         }
                         else
                         {
-                            _state = _split[0].Trim();
-                            _zipCode = _split[1].Trim();
+                            _city = _split[0].Trim();
+                            _state = string.Empty;
+                            _zipCode = string.Empty;
                         }
                         _country = address[2].Trim();
                         _url = address[4].Trim();
@@ -188,6 +190,7 @@ public class Scraping : IProfileScraping
     public (string sector, string industry, string numberEmployee) IndustryAndSector(string source)
     {
         string _sector = string.Empty, _industry = string.Empty, _numberEmployee = string.Empty;
+        List<string> text = new List<string>();
 
         if(source == "404")
             return (sector: _sector, industry: _industry, numberEmployee: _numberEmployee);
@@ -207,7 +210,7 @@ public class Scraping : IProfileScraping
             if (localizeP2End == -1)
                 return (sector: _sector, industry: _industry, numberEmployee: _numberEmployee);
 
-            string[] broken = source.Substring(localizeP2Start, localizeP2End - localizeP2Start).Split(">");
+            string[] broken = source.Substring(localizeP2Start, localizeP2End - localizeP2Start).Split(">");            
 
             for (int i = 0; i <= broken.Length; i++)
             {
@@ -365,8 +368,7 @@ public class Scraping : IProfileScraping
             int localizeDivEnd = source.IndexOf("</div>", localizeDivStart, StringComparison.CurrentCultureIgnoreCase);
             string _textPart2 = source.Substring(localizeDivStart, localizeDivEnd - localizeDivStart);
 
-            Regex regex = new Regex("<.*?>", RegexOptions.Compiled);
-            string text = regex.Replace(_textPart1, string.Empty);
+            Regex regex = new Regex("<.*?>", RegexOptions.Compiled);           
 
             return _governance = string.Concat(regex.Replace(_textPart1, string.Empty), regex.Replace(_textPart2, string.Empty));
         }

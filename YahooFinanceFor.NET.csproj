@@ -13,8 +13,9 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>YahooFinance;Finance;</PackageTags>
 	<AssemblyVersion>2.0.0.0</AssemblyVersion>
-	<FileVersion>2.0.0.2</FileVersion>
-	<Version>2.0.2</Version>
+	<FileVersion>2.0.0.4</FileVersion>
+	<Version>2.0.4</Version>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
